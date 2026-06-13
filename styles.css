@@ -23,7 +23,7 @@ header button:hover{
 }
 
 #block{
-    border: solid;
+    /* border: solid; */
     text-align: center;
     width: 20rem;
     height: 25rem;
@@ -59,9 +59,7 @@ header button:hover{
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
-    padding-bottom: 0.9rem;
-    padding-top: 0.2rem;
-}
+    padding: 5px;}
 h2{
     margin: 1.5rem;
     font-weight: 600;

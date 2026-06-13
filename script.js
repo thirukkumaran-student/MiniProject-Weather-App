@@ -20,26 +20,33 @@ let data = {
 let url;
 search.addEventListener('click', () =>
 {
+    data = {
+    city : '',
+    weatherEmoji : '',
+    temperature : '',
+    humidity : '',
+    weather : ''}
+    
     data.city = cityName.value
     console.log(data)
     url = `https://api.openweathermap.org/data/2.5/weather?q=${data.city}&appid=b3d9640f25d425e0f0a964b9b675042d`
-    searchWeather()
+    searchWeather(makeChanges)
 })
 
-async function searchWeather(){
+async function searchWeather(callback){
     let apiData
     try{
         const p = await fetch(url)
         apiData = await p.json()
-        console.log(apiData)
+        // console.log(apiData)
     }
     catch(error)
     {console.log(error)}
-
+try{
     data.temperature = `${(Math.round(apiData.main.temp - 273.13)).toString()}°C`
     data.humidity = `${(apiData.main.humidity).toString()}%`
     data.weather = `${apiData.weather[0].description}`
-    console.log(data)
+    // console.log(data)
     switch(apiData.weather[0].main)
 {
     case "Clear":
@@ -91,7 +98,26 @@ async function searchWeather(){
 
     default:
         data.weatherEmoji = "🌍 Unknown Weather";
+}}
+catch(error){
+    console.log(error)
+    city.style.fontSize = '1.5rem'
+    city.textContent = 'You entered wrong input'
+    setTimeout(() => {cityName.value = '';
+        city.style.fontSize = '2.5rem';
+        city.textContent = 'City/Country';
+    }, 3000)
+    return
 }
-    console.log(data)
+    callback()
+}
 
+function makeChanges(){
+    city.textContent = data.city.toUpperCase()
+    weatherEmoji.textContent = data.weatherEmoji
+    temperature.textContent = `Temperature : ${data.temperature}`
+    humidity.textContent = `Humidity : ${data.humidity}`
+    weather.textContent = data.weather
+    cityName.value = ''
 }
+
